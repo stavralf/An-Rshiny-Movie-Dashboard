@@ -76,11 +76,6 @@ css <- '.nav-tabs>li>a {
   color: black;}'
 
 
-
-
-
-
-
 ui<- fluidPage(tags$head(tags$style(HTML(css))),
                titlePanel(h1("Film Stats",style = "font-family:Times;font-weight:bold")),
                fluidRow(
