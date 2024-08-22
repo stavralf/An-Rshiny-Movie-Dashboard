@@ -1,16 +1,17 @@
-#A Shiny Movie Dashboard
+# An RShiny Movie Dashboard
 
 # Libraries
-library("shiny")
-library("lubridate")
-library(dplyr)
-library(ggplot2)
-library('ggiraph')
+library("shiny")# The essential library for structuring the dashboard 
+library("lubridate")# Date/Time Manipulation
+library(dplyr)# Versatile Data Wrangling.
+library(ggplot2)# Powerful Visualissations
+library('ggiraph')# Interactivity
 
 # Importing the dataset
 sales <- read.csv(file.choose())
-names(sales)
+names(sales)# Have a glnce at the variables available.
 
+# The original_language is expressed with lower case letters, whereas upper case is the usual language format. 
 # Turning letters from Lower to Upper case.
 lower_case = c('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
 upper_case = c("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")
@@ -30,7 +31,7 @@ upperise<-function(word, lower = lower_case, upper = upper_case){
 
 sales$original_language = apply(matrix(sales$original_language, nrow = nrow(sales), ncol = 1), MARGIN = 1 ,FUN = upperise)
 
-
+# Some of the titles are rather long, thus we decide to tailor them for the shake of the visualisations created below.
 # If needed, shorten the Film Titles.
 shorten_titles <- function(title, limit = 6){
   words = strsplit(title, split = " ")
@@ -75,12 +76,9 @@ css <- '.nav-tabs>li>a {
   font-family: "Times", sans-serif;
   color: black;}'
 
-
-
-
-
-
-
+# Interface: It consists of many different elements such as sliders, click-down lists, text boxes, panels and activation buttons.
+# The idea is to let user decide the year of release and genre of a film and then provide them with a multitude of relevant inforamtion.
+# Moreover, the user can search for the films of their favourite actors or/and directors by providing their name (or part of it into text-input boxes).
 ui<- fluidPage(tags$head(tags$style(HTML(css))),
                titlePanel(h1("Film Stats",style = "font-family:Times;font-weight:bold")),
                fluidRow(
@@ -125,9 +123,7 @@ ui<- fluidPage(tags$head(tags$style(HTML(css))),
                ) 
 )
 
-sales%>%
-  filter(production_countries == "United Kingdom")
-
+# Before continuing with the shaping of the Server, we define some basic aesthetics that we want our visuals to follow.
 th<-theme(panel.background = element_rect(fill = 'transparent'),
           plot.background = element_rect(fill = 'transparent',colour = 'black'),
           panel.grid = element_blank(),
@@ -176,6 +172,8 @@ th1<-theme(panel.background = element_rect(fill = 'transparent'),
            legend.title.position = "top")
 
 
+# Now we define what we want to be displayed once the user has entered their choices.
+# There are four visual options on different matters that the user can easily navigate through.
 server<-function(input,output, session){
   
   session$onSessionEnded(function() {
@@ -316,4 +314,6 @@ server<-function(input,output, session){
   })
 }
 
+
+# Run!
 shinyApp(ui, server)
