@@ -53,6 +53,25 @@ shorten_titles <- function(title, limit = 6){
 
 sales$title1 = apply(matrix(sales$title, nrow = nrow(sales), ncol = 1), MARGIN = 1 ,FUN = shorten_titles)
 
+# Now we fix the film genre variable as it contains multiple inputs in each row. We keep only the first one
+# but then we in fact employ every genre used to describe a film.
+sales = sales%>%filter(genres!="")
+
+# Keeping only the first type of genre of each film.
+genreise<-function(genre){
+  
+  genres = strsplit(genre, split = " ")
+  
+  if (genres[[1]][1] != "Science"){
+    unique_genre = genres[[1]][1]
+  }
+  else{unique_genre = "Science Fiction"}
+  
+  return (unique_genre)
+}
+
+sales$new_genres =  apply(matrix(sales$genres, nrow = nrow(sales), ncol = 1), MARGIN = 1 , FUN = genreise)
+
 
 # Creating a Year variable.
 sales = 
