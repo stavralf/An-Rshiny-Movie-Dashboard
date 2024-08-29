@@ -142,7 +142,7 @@ ui<- fluidPage(tags$head(tags$style(HTML(css))),
                ) 
 )
 
-# Before continuing with the shaping of the Server, we define some basic aesthetics that we want our visuals to follow.
+# Before continuing with the shaping of the Server, we define some basic aesthetics themes for the visuals in the following.
 th<-theme(panel.background = element_rect(fill = 'transparent'),
           plot.background = element_rect(fill = 'transparent',colour = 'black'),
           panel.grid = element_blank(),
